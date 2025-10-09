@@ -8,12 +8,22 @@
     <persistence-unit name="TeleExpertisePU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <class>com.example.entities.ActeTechnique</class>
+        <class>com.example.entities.Consultation</class>
+        <class>com.example.entities.Creneau</class>
+        <class>com.example.entities.Patient</class>
+        <class>com.example.entities.SignesVitaux</class>
+        <class>com.example.entities.SpecialistProfile</class>
+        <class>com.example.entities.TeleExpertise</class>
+        <class>com.example.entities.User</class>
+
+
         <!-- JDBC connection properties -->
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/medic"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="ton_mdp"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
 
             <!-- Hibernate properties -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
@@ -21,6 +31,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>
+
 
 
     </persistence-unit>
