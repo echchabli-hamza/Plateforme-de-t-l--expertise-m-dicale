@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>tele_expertise_medicale</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>medic</artifactId>
+    <version>1</version>
  <packaging>war</packaging>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
