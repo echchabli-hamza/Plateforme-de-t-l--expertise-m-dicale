@@ -8,24 +8,29 @@ import org.mindrot.jbcrypt.BCrypt;
 @Transactional
 public class AuthenticationService {
 
-    private final UserRepository userRepository = new UserRepository();
+    private final UserRepository userRepository ;
+
+    public AuthenticationService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User login(String username, String password) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            return null; // Utilisateur non trouvé
+            return null;
         }
 
-        // Vérifier le mot de passe avec bcrypt
-        if (BCrypt.checkpw(password, user.getPassword())) {
+        String testP = password ;
+
+        if (password.equals(user.getPassword())) {
             return user;
         }
 
-        return null; // Mot de passe incorrect
+        return null;
     }
 
     public void register(User user, String plainPassword) {
-        // Hasher le mot de passe avant de sauvegarder
+
         String hashed = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
         user.setPassword(hashed);
         userRepository.save(user);

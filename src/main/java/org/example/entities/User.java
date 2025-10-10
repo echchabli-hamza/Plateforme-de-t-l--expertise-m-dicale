@@ -39,6 +39,9 @@ public class User {
     @OneToMany(mappedBy = "specialist", cascade = CascadeType.ALL)
     private List<TeleExpertise> teleExpertises;
 
+    public void setFullname(String administrator) {
+    }
+
     public enum Role {
         INFIRMIER,
         GENERALISTE,

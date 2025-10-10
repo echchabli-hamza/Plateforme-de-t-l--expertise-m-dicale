@@ -1,5 +1,7 @@
 package org.example.repositories;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.servlet.ServletContext;
 import org.example.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -11,6 +13,14 @@ public class UserRepository {
 
     @PersistenceContext(unitName = "TeleExpertisePU")
     private EntityManager em;
+
+
+    public UserRepository(ServletContext context) {
+        EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
+        this.em = emf.createEntityManager(); // ✅ crée un EntityManager à partir de la factory
+    }
+
+
 
     public void save(User user) {
         em.persist(user);
