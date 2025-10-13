@@ -29,4 +29,11 @@ public class SignesVitaux {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    @ManyToOne
+    @JoinColumn(name = "consultation_id")
+    private Consultation consultation;
+
+
+
 }

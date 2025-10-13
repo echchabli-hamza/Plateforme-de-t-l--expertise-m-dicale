@@ -1,5 +1,7 @@
 package org.example.repositories;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.servlet.ServletContext;
 import org.example.entities.ActeTechnique;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -9,12 +11,22 @@ import java.util.List;
 @Transactional
 public class ActeTechniqueRepository {
 
-    @PersistenceContext(unitName = "TeleExpertisePU")
-    private EntityManager em;
 
-    public void save(ActeTechnique a) {
-        em.persist(a);
+    EntityManager em ;
+
+    public ActeTechniqueRepository(ServletContext context) {
+
+        EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
+        this.em = emf.createEntityManager();
+
     }
+    public void save(ActeTechnique a) {
+        em.getTransaction().begin();
+        em.persist(a);
+        em.getTransaction().commit();
+    }
+
+
 
     public ActeTechnique update(ActeTechnique a) {
         return em.merge(a);

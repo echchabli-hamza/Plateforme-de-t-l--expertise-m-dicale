@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
 @Entity
 @Table(name = "consultations")
 @Data
@@ -19,12 +18,14 @@ public class Consultation {
 
     private LocalDateTime dateConsultation;
     private String motif;
-    private String observations;
-    private Double cout = 150.0; // fixed
+
+    private Double cout = 150.0;
+
+    private TypeStatus status ;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    @JoinColumn(name = "signes_vitaux_id")
+    private SignesVitaux signesVitaux;
 
     @ManyToOne
     @JoinColumn(name = "generaliste_id")
@@ -35,4 +36,14 @@ public class Consultation {
 
     @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
     private List<TeleExpertise> expertises;
+
+
+
+    public enum TypeStatus {
+        IN_PROGRESS,
+        DONE,
+        AWAITING_TELE_EXPERTISE
+    }
+
 }
+

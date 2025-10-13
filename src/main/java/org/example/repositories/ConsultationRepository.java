@@ -1,20 +1,29 @@
 package org.example.repositories;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.servlet.ServletContext;
 import org.example.entities.Consultation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 public class ConsultationRepository {
-
-    @PersistenceContext(unitName = "TeleExpertisePU")
     private EntityManager em;
 
-    public void save(Consultation c) {
-        em.persist(c);
+    public ConsultationRepository(ServletContext context) {
+
+        EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
+        this.em = emf.createEntityManager();
+
     }
+    public void save(Consultation c) {
+        em.getTransaction().begin();
+        em.persist(c);
+        em.getTransaction().commit();
+    }
+
 
     public Consultation update(Consultation c) {
         return em.merge(c);
@@ -29,7 +38,26 @@ public class ConsultationRepository {
     }
 
     public List<Consultation> findAll() {
+        em.clear();
         return em.createQuery("SELECT c FROM Consultation c ORDER BY c.dateConsultation", Consultation.class)
                  .getResultList();
+    }
+
+    public List<Consultation> findActiveConsultations() {
+        em.clear();
+
+        return em.createQuery(
+                        "SELECT c FROM Consultation c WHERE c.status <> :status ORDER BY c.dateConsultation DESC",
+                        Consultation.class
+                )
+                .setParameter("status", Consultation.TypeStatus.DONE)
+                .getResultList();
+
+    }
+
+    public List<Consultation> findCompletedConsultations() {
+        em.clear();
+        return em.createQuery("SELECT c FROM Consultation c WHERE c.status = 'done' ORDER BY c.dateConsultation DESC", Consultation.class)
+                .getResultList();
     }
 }

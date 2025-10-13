@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        // Récupère le EntityManagerFactory depuis le ServletContext
+
         UserRepository userRepo = new UserRepository(getServletContext());
         authService = new AuthenticationService(userRepo);
     }
@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet {
 
 
 
-            resp.sendRedirect(req.getContextPath() + "/infermierDash"); // Redirection après login
+            resp.sendRedirect(req.getContextPath() + "/infermierDash");
         }
         else if(user.getRole().name().equals("SPECIALISTE")) {
             HttpSession session = req.getSession();session.setAttribute("dash", "/speDash");

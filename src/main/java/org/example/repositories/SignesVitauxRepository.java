@@ -1,5 +1,7 @@
 package org.example.repositories;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.servlet.ServletContext;
 import org.example.entities.SignesVitaux;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -12,8 +14,15 @@ public class SignesVitauxRepository {
     @PersistenceContext(unitName = "TeleExpertisePU")
     private EntityManager em;
 
+    public SignesVitauxRepository(ServletContext context) {
+        EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
+        this.em = emf.createEntityManager();
+    }
+
     public void save(SignesVitaux sv) {
+        em.getTransaction().begin();
         em.persist(sv);
+        em.getTransaction().commit();
     }
 
     public SignesVitaux update(SignesVitaux sv) {
@@ -29,7 +38,8 @@ public class SignesVitauxRepository {
     }
 
     public List<SignesVitaux> findAll() {
-        return em.createQuery("SELECT s FROM SignesVitaux s ORDER BY s.datemesure", SignesVitaux.class)
+        em.clear();
+        return em.createQuery("SELECT s FROM SignesVitaux s ORDER BY s.dateMesure", SignesVitaux.class)
                  .getResultList();
     }
 }
