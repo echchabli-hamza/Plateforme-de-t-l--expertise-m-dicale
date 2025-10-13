@@ -6,6 +6,8 @@ import org.example.entities.ActeTechnique;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.example.entities.Consultation;
+
 import java.util.List;
 
 @Transactional
@@ -18,6 +20,7 @@ public class ActeTechniqueRepository {
 
         EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
         this.em = emf.createEntityManager();
+
 
     }
     public void save(ActeTechnique a) {
@@ -40,7 +43,14 @@ public class ActeTechniqueRepository {
         return em.find(ActeTechnique.class, id);
     }
 
-    public List<ActeTechnique> findAll() {
-        return em.createQuery("SELECT a FROM ActeTechnique a", ActeTechnique.class).getResultList();
+    public List<ActeTechnique> findAll(Long consultationId) {
+
+        return em.createQuery(
+                        "SELECT a FROM ActeTechnique a WHERE a.consultation.id = " + consultationId,
+                        ActeTechnique.class
+                )
+                 .getResultList();
     }
+
+
 }

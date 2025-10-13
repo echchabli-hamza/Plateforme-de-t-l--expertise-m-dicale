@@ -18,6 +18,7 @@ public class UserRepository {
     public UserRepository(ServletContext context) {
         EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
         this.em = emf.createEntityManager();
+
     }
 
 

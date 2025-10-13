@@ -7,10 +7,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entities.ActeTechnique;
 import org.example.entities.Consultation;
+import org.example.entities.SignesVitaux;
 import org.example.repositories.ActeTechniqueRepository;
 import org.example.repositories.ConsultationRepository;
+import org.example.repositories.SignesVitauxRepository;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/consultationPage")
 public class ConsultationController extends HttpServlet {
@@ -21,11 +24,16 @@ public class ConsultationController extends HttpServlet {
     public void init() throws ServletException {
         consultationRepo = new ConsultationRepository(getServletContext());
 
+
+
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+
 
         String idParam = request.getParameter("consultationId");
         if (idParam == null) {
@@ -43,12 +51,17 @@ public class ConsultationController extends HttpServlet {
 
 
 
+
             request.setAttribute("consultation", consultation);
+
             request.getRequestDispatcher("/WEB-INF/views/consultation.jsp")
+
                     .forward(request, response);
 
         } catch (NumberFormatException e) {
+
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid consultationId");
+
         }
     }
 

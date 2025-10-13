@@ -121,6 +121,7 @@
         List<Consultation> activeConsultations = (List<Consultation>) request.getAttribute("activeConsultations");
         if (activeConsultations != null && !activeConsultations.isEmpty()) {
     %>
+
     <table>
         <tr>
             <th>ID Consultation</th>

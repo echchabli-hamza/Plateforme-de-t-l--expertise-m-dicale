@@ -19,6 +19,8 @@ public class PatientRepository {
     public PatientRepository(ServletContext context) {
         EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
         this.em = emf.createEntityManager();
+        em.clear();
+
     }
 
 //    public void save(Patient patient) {

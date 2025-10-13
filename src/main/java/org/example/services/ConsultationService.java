@@ -30,6 +30,11 @@ public class ConsultationService {
         consultationRepository.save(c);
     }
 
+    public void refresh(Consultation c){
+
+        consultationRepository.refresh(c);
+
+    }
 
 
     public List<Consultation> getCompletedConsultations() {

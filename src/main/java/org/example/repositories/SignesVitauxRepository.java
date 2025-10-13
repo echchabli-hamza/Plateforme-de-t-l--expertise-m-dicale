@@ -17,6 +17,7 @@ public class SignesVitauxRepository {
     public SignesVitauxRepository(ServletContext context) {
         EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
         this.em = emf.createEntityManager();
+        em.clear();
     }
 
     public void save(SignesVitaux sv) {

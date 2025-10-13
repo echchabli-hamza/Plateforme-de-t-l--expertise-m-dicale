@@ -16,6 +16,8 @@ public class ConsultationRepository {
 
         EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
         this.em = emf.createEntityManager();
+        em.clear();
+
 
     }
     public void save(Consultation c) {
@@ -34,6 +36,8 @@ public class ConsultationRepository {
     }
 
     public Consultation findById(Long id) {
+
+
         return em.find(Consultation.class, id);
     }
 
@@ -55,6 +59,11 @@ public class ConsultationRepository {
 
     }
 
+    public void refresh(Consultation c){
+        em.clear();
+        em.refresh(c);
+
+    }
     public List<Consultation> findCompletedConsultations() {
         em.clear();
         return em.createQuery("SELECT c FROM Consultation c WHERE c.status = 'done' ORDER BY c.dateConsultation DESC", Consultation.class)
