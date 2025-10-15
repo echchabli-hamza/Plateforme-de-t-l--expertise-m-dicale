@@ -14,11 +14,8 @@ public class ConsultationService {
 
 
     public ConsultationService(ServletContext context) {
-        System.out.println(">>> ConsultationService constructor - Instance: " + System.identityHashCode(this));
-        this.consultationRepository = new ConsultationRepository(context);
-        System.out.println(">>> consultationRepository assigned: " + this.consultationRepository);
-        System.out.println(">>> consultationRepository field: " + System.identityHashCode(this.consultationRepository));
-    }
+          this.consultationRepository = new ConsultationRepository(context);
+   }
 
     public List<Consultation> getActiveC() {
 
@@ -30,11 +27,7 @@ public class ConsultationService {
         consultationRepository.save(c);
     }
 
-    public void refresh(Consultation c){
 
-        consultationRepository.refresh(c);
-
-    }
 
 
     public List<Consultation> getCompletedConsultations() {

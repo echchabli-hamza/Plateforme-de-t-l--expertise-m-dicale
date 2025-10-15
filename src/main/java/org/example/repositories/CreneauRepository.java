@@ -25,6 +25,7 @@ public class CreneauRepository {
     }
 
     public Creneau findById(Long id) {
+        em.clear();
         return em.find(Creneau.class, id);
     }
 

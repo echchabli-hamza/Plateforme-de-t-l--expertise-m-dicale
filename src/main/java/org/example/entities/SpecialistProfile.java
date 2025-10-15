@@ -12,7 +12,7 @@ import lombok.*;
 public class SpecialistProfile {
 
     @Id
-    private Long id; // same as user_id
+    private Long id;
 
     @OneToOne
     @MapsId
@@ -21,5 +21,5 @@ public class SpecialistProfile {
 
     private String specialite;
     private Double tarif;
-    private Integer dureeConsultation = 30; // min
+    private Integer dureeConsultation = 30;
 }

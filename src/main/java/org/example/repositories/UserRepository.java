@@ -36,6 +36,7 @@ public class UserRepository {
     }
 
     public User findById(Long id) {
+        em.clear();
         return em.find(User.class, id);
     }
 
@@ -45,6 +46,11 @@ public class UserRepository {
                 .setParameter("username", username)
                 .getResultList();
         return users.isEmpty() ? null : users.get(0);
+    }
+
+    public List<User> getSpecial(){
+
+        return em.createQuery("SELECT u from User u WHERE u.role= 'SPECIALISTE' " , User.class).getResultList();
     }
 
 

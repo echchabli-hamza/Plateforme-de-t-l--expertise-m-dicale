@@ -39,7 +39,9 @@ public class ActeTechniqueRepository {
         em.remove(em.contains(a) ? a : em.merge(a));
     }
 
+
     public ActeTechnique findById(Long id) {
+        em.clear();
         return em.find(ActeTechnique.class, id);
     }
 

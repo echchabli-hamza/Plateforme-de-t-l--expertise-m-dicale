@@ -8,7 +8,9 @@
 
 <html>
 <head>
-    <title>Détails de la consultation</title>
+    <title>Consultation</title>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/consultation.css">
 </head>
 <body>
 
@@ -23,7 +25,7 @@
 
 <h3>Généraliste</h3>
 
-<p>Username: <%= generaliste.getUsername() %></p>
+<p>Username: <%= generaliste.getFullName() %></p>
 
 <h3>Patient</h3>
 <% if (patient != null) { %>
@@ -106,7 +108,7 @@
 </form>
 
 <%
-    // Check if consultation is done
+
     boolean isDone = consultation.getStatus() != null
                      && consultation.getStatus() == Consultation.TypeStatus.DONE;
 
@@ -132,6 +134,40 @@
 <% } %>
 
 
+<div class="absolut">
+  <div class="dimentions">
+    <h2 class="h2Css">Recherche de Spécialistes</h2>
 
+    <div class="search-container">
+      <select id="specialtyFilter">
+        <option value="">Toutes les spécialités</option>
+        <option value="Cardiologie">Cardiologie</option>
+        <option value="Pneumologie">Pneumologie</option>
+        <option value="Neurologie">Neurologie</option>
+
+                <option value="Gastro-entérologie">Gastro-entérologie</option>
+                <option value="Endocrinologie">Endocrinologie</option>
+                <option value="Dermatologie">Dermatologie</option>
+                 <option value="Rhumatologie">Rhumatologie</option>
+        <option value="Psychiatrie">Psychiatrie</option>
+        <option value="Néphrologie">Néphrologie</option>
+         <option value="Orthopédie">Orthopédie</option>
+
+
+      </select>
+
+      <input  type="number" id="amount" placeholder="Montant" />
+      <button id="filter-btn">Filtrer</button>
+    </div>
+
+    <div id="specialistsResults" class="results-container">
+      <!-- results here -->
+    </div>
+  </div>
+</div>
+
+
+
+  <script src="${pageContext.request.contextPath}/js/consultation.js"></script>
 </body>
 </html>

@@ -37,6 +37,7 @@ public class ConsultationRepository {
 
     public Consultation findById(Long id) {
 
+        em.clear();
 
         return em.find(Consultation.class, id);
     }
@@ -59,11 +60,7 @@ public class ConsultationRepository {
 
     }
 
-    public void refresh(Consultation c){
-        em.clear();
-        em.refresh(c);
 
-    }
     public List<Consultation> findCompletedConsultations() {
         em.clear();
         return em.createQuery("SELECT c FROM Consultation c WHERE c.status = 'done' ORDER BY c.dateConsultation DESC", Consultation.class)

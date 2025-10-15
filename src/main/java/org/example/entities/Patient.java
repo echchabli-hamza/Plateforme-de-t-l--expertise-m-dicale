@@ -46,6 +46,4 @@ public class Patient {
     @org.hibernate.annotations.SQLRestriction("utilisepourconsultation = false")
     private List<SignesVitaux> activeSignesVitaux;
 
-
-
 }

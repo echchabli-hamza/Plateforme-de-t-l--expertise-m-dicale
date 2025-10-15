@@ -25,6 +25,7 @@ public class SpecialistProfileRepository {
     }
 
     public SpecialistProfile findById(Long id) {
+        em.clear();
         return em.find(SpecialistProfile.class, id);
     }
 
