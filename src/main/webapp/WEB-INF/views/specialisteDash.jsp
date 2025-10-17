@@ -304,7 +304,7 @@
                                     if (creneau.getDebut().equals(slotDateTime)) {
                                         slotExists = true;
                                         existingCreneauId = creneau.getId();
-                                        if (!creneau.getDisponible() || creneau.getPatient() != null) {
+                                        if (!creneau.getDisponible()) {
                                             isBooked = true;
                                         } else {
                                             isAvailable = true;

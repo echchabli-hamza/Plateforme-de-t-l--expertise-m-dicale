@@ -1,5 +1,6 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -31,29 +32,25 @@ public class Creneau {
 
     @ManyToOne
     @JoinColumn(name = "specialist_id", nullable = false)
+    @JsonBackReference
     private User specialist;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private User patient;
 
-    // Add the missing business logic methods
-    public boolean isAvailableForBooking() {
-        return disponible && debut.isAfter(LocalDateTime.now()) && patient == null;
+
+
+
+
+
+
+
+    @Override
+    public String toString() {
+        return "Creneau{" +
+                "id=" + id +
+                ", debut=" + debut +
+                ", fin=" + fin +
+                ", disponible=" + disponible +
+
+                '}';
     }
-
-    public void bookFor(User patient) {
-        if (!isAvailableForBooking()) {
-            throw new IllegalStateException("Cannot book an unavailable slot");
-        }
-        this.patient = patient;
-        this.disponible = false;
-    }
-
-    public void cancel() {
-        this.patient = null;
-        this.disponible = true;
-    }
-
-
 }

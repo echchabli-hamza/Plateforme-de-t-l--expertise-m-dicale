@@ -21,9 +21,7 @@ public class CreneauService {
         this.emf = emf;
     }
 
-    /**
-     * Update creneaux for the week - both add new slots and delete existing ones
-     */
+
     public void updateCreneauxForWeek(User specialist, List<LocalDateTime> newSlotStarts, List<Long> deleteSlotIds) {
         EntityManager em = emf.createEntityManager();
 
@@ -36,8 +34,7 @@ public class CreneauService {
                     Creneau creneau = em.find(Creneau.class, creneauId);
                     if (creneau != null &&
                             creneau.getSpecialist().getId().equals(specialist.getId()) &&
-                            creneau.getDisponible() &&
-                            creneau.getPatient() == null) {
+                            creneau.getDisponible()) {
                         em.remove(creneau);
                         LOGGER.log(Level.INFO, "Deleted creneau: {0}", creneauId);
                     }
@@ -139,5 +136,32 @@ public class CreneauService {
         } finally {
             em.close();
         }
+    }
+
+
+    public void save(Creneau c) {
+        EntityManager em = emf.createEntityManager();
+        em.persist(c);
+    }
+
+    public Creneau update(Creneau c) {
+        EntityManager em = emf.createEntityManager();
+        return em.merge(c);
+    }
+
+    public void delete(Creneau c) {
+        EntityManager em = emf.createEntityManager();
+        em.remove(em.contains(c) ? c : em.merge(c));
+    }
+
+    public Creneau findById(Long id) {
+        EntityManager em = emf.createEntityManager();
+        em.clear();
+        return em.find(Creneau.class, id);
+    }
+
+    public List<Creneau> findAll() {
+        EntityManager em = emf.createEntityManager();
+        return em.createQuery("SELECT c FROM Creneau c ORDER BY c.debut", Creneau.class).getResultList();
     }
 }

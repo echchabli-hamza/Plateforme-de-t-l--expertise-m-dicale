@@ -4,11 +4,8 @@ package org.example.controllers;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import org.example.UserDTO;
-import org.example.entities.SpecialistProfile;
 import org.example.entities.User;
 import org.example.services.UserService;
-import com.google.gson.Gson;
 import org.example.util.LL;
 
 ///
@@ -23,16 +20,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 ///
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 
-@WebServlet("/api/special")
-public class UserController extends HttpServlet{
+@WebServlet("/userApi/special")
+public class UserApiController extends HttpServlet{
 
 
     private UserService es ;

@@ -17,7 +17,7 @@ public class TeleExpertise {
     private Long id;
 
     private String question;
-    private String avis;
+
     private String recommandations;
 
     @Enumerated(EnumType.STRING)

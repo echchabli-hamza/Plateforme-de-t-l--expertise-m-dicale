@@ -1,5 +1,6 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -25,10 +26,12 @@ public class User {
 
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private SpecialistProfile specialistProfile;
 
 
     @OneToMany(mappedBy = "specialist", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Creneau> creneaux;
 
     @OneToMany(mappedBy = "generaliste", cascade = CascadeType.ALL)

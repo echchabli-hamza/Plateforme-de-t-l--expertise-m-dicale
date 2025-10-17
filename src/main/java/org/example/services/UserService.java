@@ -2,6 +2,7 @@ package org.example.services;
 
 import jakarta.servlet.ServletContext;
 import org.example.UserDTO;
+import org.example.entities.Creneau;
 import org.example.entities.SpecialistProfile;
 import org.example.entities.User;
 import org.example.repositories.UserRepository;
@@ -28,6 +29,13 @@ public class UserService {
 
         ur = new UserRepository(context);
 
+
+
+    }
+
+    public List<Creneau> getUser(Long id){
+
+        return ur.findById(id).getCreneaux().stream().filter(e->e.getDisponible()==true).toList();
 
 
     }
