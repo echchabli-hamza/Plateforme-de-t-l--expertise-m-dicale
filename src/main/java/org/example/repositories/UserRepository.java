@@ -12,35 +12,40 @@ import java.util.List;
 public class UserRepository {
 
     @PersistenceContext(unitName = "TeleExpertisePU")
-    private EntityManager em;
+
+    private EntityManagerFactory emf;
 
 
     public UserRepository(ServletContext context) {
-        EntityManagerFactory emf = (EntityManagerFactory) context.getAttribute("emf");
-        this.em = emf.createEntityManager();
+         emf = (EntityManagerFactory) context.getAttribute("emf");
+        EntityManager em = emf.createEntityManager();
 
     }
 
 
 
     public void save(User user) {
+        EntityManager em = emf.createEntityManager();
         em.persist(user);
     }
 
     public User update(User user) {
+        EntityManager em = emf.createEntityManager();
         return em.merge(user);
     }
 
     public void delete(User user) {
+        EntityManager em = emf.createEntityManager();
         em.remove(em.contains(user) ? user : em.merge(user));
     }
 
     public User findById(Long id) {
-        em.clear();
+        EntityManager em = emf.createEntityManager();
         return em.find(User.class, id);
     }
 
     public User findByUsername(String username) {
+        EntityManager em = emf.createEntityManager();
         List<User> users = em.createQuery(
                         "SELECT u FROM User u WHERE u.username = :username", User.class)
                 .setParameter("username", username)
@@ -49,12 +54,13 @@ public class UserRepository {
     }
 
     public List<User> getSpecial(){
-
+        EntityManager em = emf.createEntityManager();
         return em.createQuery("SELECT u from User u WHERE u.role= 'SPECIALISTE' " , User.class).getResultList();
     }
 
 
     public List<User> findAll() {
+        EntityManager em = emf.createEntityManager();
         return em.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 }

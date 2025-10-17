@@ -106,7 +106,12 @@
     <button type="submit" name="action" value="done">Terminer la consultation</button>
 
 </form>
- <button id="expert" type="submit" name="action" value="extend">Étendre à Télé-Expertise</button>
+<% if (consultation.getStatus() != Consultation.TypeStatus.AWAITING_TELE_EXPERTISE) { %>
+    <button id="expert" type="submit" name="action" value="extend">
+        Étendre à Télé-Expertise
+    </button>
+<% } %>
+
 <%
 
     boolean isDone = consultation.getStatus() != null
@@ -135,7 +140,7 @@
 
 
 <div id="tele" class="absolut">
- <button id="expert">Open Modal</button>
+
   <div class="dimentions">
 
    <button id="closeModal">×</button>

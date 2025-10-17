@@ -28,8 +28,17 @@ public class ConsultationRepository {
 
 
     public Consultation update(Consultation c) {
-        return em.merge(c);
+        try {
+            em.getTransaction().begin();
+            Consultation merged = em.merge(c);
+            em.getTransaction().commit();
+            return merged;
+        } catch (RuntimeException e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        }
     }
+
 
     public void delete(Consultation c) {
         em.remove(em.contains(c) ? c : em.merge(c));

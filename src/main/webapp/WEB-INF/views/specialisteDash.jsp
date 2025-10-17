@@ -219,7 +219,16 @@
     </style>
 </head>
 <body>
+
+
+
 <div class="container">
+<nav class="navbar">
+                           <ul>
+                               <li><a href="http://localhost:8080/medic-1/speDash">Creneaux</a></li>
+                               <li><a href="#assignedConsultations">Workspace</a></li>
+                           </ul>
+       </nav>
     <div class="header">
         <div>
             <h2>Tableau de bord Spécialiste</h2>

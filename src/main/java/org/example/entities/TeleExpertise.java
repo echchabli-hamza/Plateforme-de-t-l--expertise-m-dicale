@@ -5,7 +5,10 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tele_expertises")
+@Table(
+        name = "tele_expertises",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"consultation_id"})
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +28,7 @@ public class TeleExpertise {
 
     private LocalDateTime dateDemande;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 

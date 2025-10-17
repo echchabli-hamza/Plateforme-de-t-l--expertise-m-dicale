@@ -116,9 +116,7 @@ public class CreneauService {
         }
     }
 
-    /**
-     * Safe method to save a single creneau that handles duplicates
-     */
+
     public boolean saveCreneauSafely(Creneau creneau) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -146,8 +144,19 @@ public class CreneauService {
 
     public Creneau update(Creneau c) {
         EntityManager em = emf.createEntityManager();
-        return em.merge(c);
+        try {
+            em.getTransaction().begin();
+            Creneau merged = em.merge(c);
+            em.getTransaction().commit();
+            return merged;
+        } catch (RuntimeException e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
     }
+
 
     public void delete(Creneau c) {
         EntityManager em = emf.createEntityManager();
@@ -156,7 +165,7 @@ public class CreneauService {
 
     public Creneau findById(Long id) {
         EntityManager em = emf.createEntityManager();
-        em.clear();
+
         return em.find(Creneau.class, id);
     }
 

@@ -65,7 +65,9 @@ public class TeleExpertiseController extends HttpServlet {
 
         LL.to(cc.toString());
 
+        LL.to(cc.getDisponible().toString());
         cc.setDisponible(false);
+        LL.to(cc.getDisponible().toString());
 
         creneau.update(cc);
 
@@ -74,7 +76,7 @@ public class TeleExpertiseController extends HttpServlet {
         TeleExpertise tt = new TeleExpertise(null,"efaerfer" , null , TeleExpertise.Statut.EN_ATTENTE , LocalDateTime.now() , cRes , cc.getSpecialist());
 
 
-        te.save(tt);
+        te.saveIfNotExists(tt);
 
 
 

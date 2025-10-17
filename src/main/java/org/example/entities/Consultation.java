@@ -34,9 +34,8 @@ public class Consultation {
     @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
     private List<ActeTechnique> actes;
 
-    @OneToMany(mappedBy = "consultation", cascade = CascadeType.ALL)
-    private List<TeleExpertise> expertises;
-
+    @OneToOne(mappedBy = "consultation", cascade = CascadeType.ALL)
+    private TeleExpertise expertise;
 
 
     public enum TypeStatus {
