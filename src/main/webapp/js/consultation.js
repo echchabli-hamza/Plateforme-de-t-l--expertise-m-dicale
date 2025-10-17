@@ -32,7 +32,7 @@ filterBtn.addEventListener('click', async () => {
       const btn = document.createElement('button');
       btn.textContent = item.fullName || item.username || JSON.stringify(item);
       btn.dataset.id = item.id;
-      btn.classList.add('spec-button'); // apply styling
+      btn.classList.add('spec-button');
       resultsContainer.appendChild(btn);
 
       btn.addEventListener('click', async () => {
@@ -44,7 +44,7 @@ filterBtn.addEventListener('click', async () => {
               "2025-10-19", "2025-10-20", "2025-10-21"
           ];
 
-          // Extract all unique times from API
+
           const times = [...new Set(creneauData.map(slot => slot.debut.slice(11,16) + ' - ' + slot.fin.slice(11,16)))].sort();
 
 
@@ -68,8 +68,11 @@ filterBtn.addEventListener('click', async () => {
               columns.forEach(day => {
                   const td = document.createElement('td');
                   const slot = calendarMap[day][time];
+
                   if(slot){
-                      if(slot.disponible && slot.availableForBooking){
+
+
+                      if(slot.disponible){
                           const input = document.createElement('input');
                           input.type = 'radio';
                           input.name = 'selectedSlot';
@@ -135,7 +138,22 @@ function confirm(creneauid) {
 }
 
 
+const modal = document.getElementById('tele');
+const launch = document.getElementById('expert');
+const closeBtn = document.getElementById('closeModal');
 
+launch.addEventListener('click', () => {
+  modal.style.display = 'flex';
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Optional: close if you click outside the modal content
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.style.display = 'none';
+});
 
 
 

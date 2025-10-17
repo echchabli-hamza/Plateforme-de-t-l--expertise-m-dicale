@@ -25,7 +25,7 @@
 
 <h3>Généraliste</h3>
 
-<p>Username: <%= generaliste.getFullName() %></p>
+<p>Username: HH</p>
 
 <h3>Patient</h3>
 <% if (patient != null) { %>
@@ -104,9 +104,9 @@
 <form method="post" action="${pageContext.request.contextPath}/consultationPage">
     <input type="hidden" name="consultationId" value="<%= consultation.getId() %>">
     <button type="submit" name="action" value="done">Terminer la consultation</button>
-    <button type="submit" name="action" value="extend">Étendre à Télé-Expertise</button>
-</form>
 
+</form>
+ <button id="expert" type="submit" name="action" value="extend">Étendre à Télé-Expertise</button>
 <%
 
     boolean isDone = consultation.getStatus() != null
@@ -134,8 +134,11 @@
 <% } %>
 
 
-<div class="absolut">
+<div id="tele" class="absolut">
+ <button id="expert">Open Modal</button>
   <div class="dimentions">
+
+   <button id="closeModal">×</button>
     <h2 class="h2Css">Recherche de Spécialistes</h2>
 
     <div class="search-container">

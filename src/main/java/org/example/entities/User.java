@@ -41,9 +41,13 @@ public class User {
     private List<TeleExpertise> teleExpertises;
 
 
+    public String getFullName() {
+        return fullName;
+    }
 
-
-
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
     public enum Role {
         INFIRMIER,
