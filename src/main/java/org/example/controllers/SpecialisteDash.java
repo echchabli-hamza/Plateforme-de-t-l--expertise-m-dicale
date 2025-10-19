@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import org.example.entities.Creneau;
 import org.example.entities.SpecialistProfile;
+import org.example.entities.TeleExpertise;
 import org.example.entities.User;
 import org.example.services.CreneauService;
 import org.hibernate.Session;
@@ -28,14 +29,30 @@ public class SpecialisteDash extends HttpServlet {
         }
 
 
+
+
         User user = (User) session.getAttribute("user");
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-        CreneauService creneauService = new CreneauService(emf);
-        List<Creneau> ss = creneauService.getCreneauxForNextWeek(user.getId());
 
 
-        request.setAttribute("listC" , ss );
 
-        request.getRequestDispatcher("/WEB-INF/views/specialisteDash.jsp").forward(request, response);
+
+
+
+        String view = request.getParameter("view");
+
+        if ("main".equals(view)) {
+
+            List<TeleExpertise> teleExpertises = user.getTeleExpertises();
+            request.setAttribute("teleExpertises", teleExpertises);
+            request.getRequestDispatcher("/WEB-INF/views/speMain.jsp").forward(request, response);
+
+        } else {
+            CreneauService creneauService = new CreneauService(emf);
+
+            List<Creneau> ss = creneauService.getCreneauxForNextWeek(user.getId());
+             request.setAttribute("listC" , ss );
+            request.getRequestDispatcher("/WEB-INF/views/specialisteDash.jsp").forward(request, response);
+        }
     }
 }
