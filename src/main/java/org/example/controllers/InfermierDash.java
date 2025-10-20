@@ -28,6 +28,7 @@ public class InfermierDash extends HttpServlet {
             return;
         }
 
+
         List<Patient> pl = patientService.findToday();
         request.setAttribute("patients", pl);
         request.getRequestDispatcher("/WEB-INF/views/infDash.jsp").forward(request, response);

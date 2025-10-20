@@ -467,23 +467,7 @@
             </div>
         </c:if>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">➕</div>
-                <div class="stat-number" id="selected-count">0</div>
-                <div class="stat-label">Nouveaux créneaux sélectionnés</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-number" id="existing-count">0</div>
-                <div class="stat-label">Créneaux disponibles</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-number" id="booked-count">0</div>
-                <div class="stat-label">Sessions réservées</div>
-            </div>
-        </div>
+
 
         <div class="main-card">
             <div class="card-header">

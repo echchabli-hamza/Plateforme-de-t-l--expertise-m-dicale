@@ -321,6 +321,31 @@
             font-size: 18px;
             margin-bottom: 30px;
         }
+.recommendation-box {
+    background-color: #e8f4ff;
+    border-left: 5px solid #007bff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.recommendation-title {
+    color: #0056b3;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.recommendation-text {
+    margin: 0;
+    color: #333;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-line; /* preserve line breaks */
+}
 
         .modal-content .total {
             font-size: 32px;
@@ -386,6 +411,95 @@
             gap: 15px;
             margin: 30px 0;
         }
+        .full-width-card {
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            font-family: Arial, sans-serif;
+        }
+
+        .full-width-card h2 {
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+            font-size: 22px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        /* Each section has equal spacing and consistent look */
+        .action-section {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .action-section h3 {
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        /* Buttons and form styling */
+        .action-form {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        /* Recommendation box */
+        .recommendation-box {
+            background-color: #e8f4ff;
+            border-left: 5px solid #007bff;
+            border-radius: 10px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation-text {
+            margin: 0;
+            color: #333;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 768px) {
+            .action-form {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
 
         .search-container select,
         .search-container input {
@@ -463,14 +577,21 @@
     </style>
 </head>
 <body>
+
     <%
         Consultation consultation = (Consultation) request.getAttribute("consultation");
         User generaliste = consultation.getGeneraliste();
         SignesVitaux sv = consultation.getSignesVitaux();
         Patient patient = sv != null ? sv.getPatient() : null;
         boolean isDone = consultation.getStatus() != null && consultation.getStatus() == Consultation.TypeStatus.DONE;
+        boolean isWaiting =consultation.getStatus() == Consultation.TypeStatus.AWAITING_TELE_EXPERTISE;
+        boolean reponse = false;
+        if (consultation.getExpertise() != null &&
+            consultation.getExpertise().getStatut() != null) {
+            reponse = "TERMINEE".equals(consultation.getExpertise().getStatut().name());
+        }
     %>
-
+ <p><%= reponse %></p>
     <div class="container">
         <div class="header">
             <h1>🏥 Consultation #<%= consultation.getId() %></h1>
@@ -481,10 +602,10 @@
 
         <div class="main-grid">
             <div class="card">
-                <h2 style="content: '👨‍⚕️';">👨‍⚕️ Généraliste</h2>
+                <h2>👨‍⚕️ Généraliste</h2>
                 <div class="info-row">
                     <span class="info-label">Username:</span>
-                    <span class="info-value">HH</span>
+                    <span class="info-value"><%= generaliste != null ? generaliste.getUsername() : "N/A" %></span>
                 </div>
             </div>
 
@@ -589,23 +710,43 @@
                 <% } %>
             </div>
 
-            <div class="card full-width-card">
-                <h2>⚙️ Actions</h2>
-                <div class="actions-section">
-                    <form method="post" action="${pageContext.request.contextPath}/consultationPage" style="flex: 1;">
-                        <input type="hidden" name="consultationId" value="<%= consultation.getId() %>">
-                        <button type="submit" name="action" value="done" class="btn btn-success">
-                            ✓ Terminer la consultation
-                        </button>
-                    </form>
+          <div class="card full-width-card">
+              <h2>⚙️ Actions</h2>
 
-                    <% if (consultation.getStatus() != Consultation.TypeStatus.AWAITING_TELE_EXPERTISE) { %>
-                        <button id="expert" type="button" class="btn btn-warning">
-                            🌐 Étendre à Télé-Expertise
-                        </button>
-                    <% } %>
-                </div>
-            </div>
+              <!-- ✅ Section 1: Terminer la consultation -->
+              <section class="action-section">
+                  <h3>🩺 Terminer la consultation</h3>
+                  <form method="post" action="${pageContext.request.contextPath}/consultationPage" class="action-form">
+                      <input type="hidden" name="consultationId" value="<%= consultation.getId() %>">
+                      <button type="submit" name="action" value="done" class="btn btn-success">
+                          ✓ Terminer la consultation
+                      </button>
+                  </form>
+              </section>
+
+              <!-- ✅ Section 2: Étendre à Télé-Expertise -->
+              <% if (!isWaiting) { %>
+              <section class="action-section">
+                  <h3>🌐 Télé-Expertise</h3>
+                  <button id="expert" type="button" class="btn btn-warning">
+                      Étendre à Télé-Expertise
+                  </button>
+              </section>
+              <% } %>
+
+              <!-- ✅ Section 3: Recommandations -->
+              <% if (reponse) { %>
+              <section class="action-section">
+                  <h3>💡 Recommandations</h3>
+                  <div class="recommendation-box">
+                      <p class="recommendation-text">
+                          <%= consultation.getExpertise().getRecommandations() %>
+                      </p>
+                  </div>
+              </section>
+              <% } %>
+          </div>
+
         </div>
     </div>
 

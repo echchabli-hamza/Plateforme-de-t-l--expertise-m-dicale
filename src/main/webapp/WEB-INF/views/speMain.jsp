@@ -365,38 +365,10 @@
                 (java.util.List<org.example.entities.TeleExpertise>) request.getAttribute("teleExpertises");
 
             int totalCount = 0;
-            int pendingCount = 0;
-            int completedCount = 0;
 
-            if (teleExpertises != null) {
-                totalCount = teleExpertises.size();
-                for (org.example.entities.TeleExpertise te : teleExpertises) {
-                    if ("EN_ATTENTE".equals(te.getStatut())) {
-                        pendingCount++;
-                    } else if ("TERMINEE".equals(te.getStatut())) {
-                        completedCount++;
-                    }
-                }
-            }
         %>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">📋</div>
-                <div class="stat-number"><%= totalCount %></div>
-                <div class="stat-label">Total Télé-Expertises</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⏳</div>
-                <div class="stat-number"><%= pendingCount %></div>
-                <div class="stat-label">En Attente</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-number"><%= completedCount %></div>
-                <div class="stat-label">Terminées</div>
-            </div>
-        </div>
+
 
         <div class="main-card">
             <div class="card-header">
@@ -447,11 +419,11 @@
 
                             <div class="expertise-actions">
                                 <% if ("EN_ATTENTE".equals(te.getStatut())) { %>
-                                    <a href="${pageContext.request.contextPath}/consultationPage?consultationId=<%= te.getConsultation().getId() %>" class="btn btn-primary">
+                                    <a href="${pageContext.request.contextPath}/teleExpertise?id=<%= te.getId() %>" class="btn btn-primary">
                                         Répondre
                                     </a>
                                 <% } else { %>
-                                    <a href="${pageContext.request.contextPath}/consultationPage?consultationId=<%= te.getConsultation().getId() %>" class="btn btn-secondary">
+                                    <a href="${pageContext.request.contextPath}/teleExpertise?id=<%= te.getId() %>" class="btn btn-secondary">
                                         Voir détails
                                     </a>
                                 <% } %>

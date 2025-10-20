@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,15 +37,35 @@ public class TeleExpertiseController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String idParam = request.getParameter("id");
 
+        if (idParam == null || idParam.isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/speDash?view=main");
+            return;
+        }
 
+        Long teleExpertiseId = Long.parseLong(idParam);
+        TeleExpertise teleExpertise = te.findById(teleExpertiseId);
 
+        if (teleExpertise == null) {
+            response.sendRedirect(request.getContextPath() + "/speDash?view=main");
+            return;
+        }
+
+        request.setAttribute("teleExpertise", teleExpertise);
+        request.getRequestDispatcher("/WEB-INF/views/teleExpertise.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+
+        String mm = request.getParameter("_method");
+        if ("PUT".equals(mm)) {
+            doPut(request, response);
+            return;
+        }
         String consultationIdParam = request.getParameter("consultationId");
         String creneauIdParam = request.getParameter("creneauId");
 
@@ -87,13 +108,23 @@ public class TeleExpertiseController extends HttpServlet {
         response.getWriter().write(jsonResponse);
     }
 
-
-
-
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String teleExpertiseIdParam = request.getParameter("teleExpertiseId");
+
+        String recommandations = request.getParameter("recommandations");
+
+        Long teleExpertiseId = Long.parseLong(teleExpertiseIdParam);
+        TeleExpertise teleExpertise = te.findById(teleExpertiseId);
+
+        teleExpertise.setRecommandations(recommandations);
+        teleExpertise.setStatut(TeleExpertise.Statut.TERMINEE);
+
+        te.update(teleExpertise);
+
+        response.sendRedirect(request.getContextPath() + "/speDash?view=main");
     }
 
     @Override

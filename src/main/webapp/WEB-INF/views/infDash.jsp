@@ -326,6 +326,7 @@
 
             <form action="${pageContext.request.contextPath}/patient" method="post">
                 <div class="form-grid">
+                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                     <div class="section-title">Informations personnelles</div>
 
                     <div class="form-group">

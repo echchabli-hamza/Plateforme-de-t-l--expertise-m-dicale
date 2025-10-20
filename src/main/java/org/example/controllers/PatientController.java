@@ -36,6 +36,7 @@ public class PatientController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+
         try {
             String prenom = req.getParameter("prenom");
             String nom = req.getParameter("nom");
